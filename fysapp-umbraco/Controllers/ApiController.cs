@@ -14,6 +14,8 @@ namespace fysapp_umbraco.Controllers
 {
     public class ApiController : UmbracoApiController
     {
+        public string apiUrl = "https://fysapp-umbraco.azurewebsites.net";
+
         // GET: Exercise by exercise id
         [HttpGet]
         public Exercise GetExercise(int id)
@@ -32,7 +34,7 @@ namespace fysapp_umbraco.Controllers
                 var imageGuidUdi = GuidUdi.Parse(imageString);
                 var imageNodeId = ApplicationContext.Current.Services.EntityService.GetIdForKey(imageGuidUdi.Guid, (UmbracoObjectTypes)Enum.Parse(typeof(UmbracoObjectTypes), imageGuidUdi.EntityType, true));
                 var imageNode = Umbraco.TypedMedia(imageNodeId.Result);
-                e.ImageLinks = imageNode.Url;
+                e.ImageLinks = apiUrl + imageNode.Url;
             }
             else
             {

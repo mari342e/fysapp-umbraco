@@ -10,6 +10,7 @@ using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using Umbraco.Web.WebApi;
 using Newtonsoft.Json;
+using Umbraco.Web;
 
 namespace fysapp_umbraco.Controllers
 {
@@ -84,18 +85,16 @@ namespace fysapp_umbraco.Controllers
             var exercises = (from c in exerciseList
                              select new Exercise()
                              {
-                                 Name = c.Name,
-                                 Title = c.GetValue<string>("Title"),
-                                 ImageLinks = apiUrl + c.GetValue<string>("ImageLinks"),
-                                 Description = c.GetValue<string>("Description"),
-                                 Repetition = c.GetValue<string>("Repetition"),
-                                 Breaks = c.GetValue<string>("Breaks"),
-                                 Focus = c.GetValue<string>("Focus"),
-                                 ExerciseID = c.GetValue<int>("ExerciseID"),
-                                 UserGroupID = c.GetValue<int>("UserGroupID"),
-                                 ApiExerciseID = c.GetValue<string>("ApiExerciseID")
+                                 Id = c.Id
                              }).ToList();
-            return exercises;
+
+            var newList = new List<Exercise>();
+
+            foreach (var item in exercises){
+                newList.Add(GetExercise(item.Id));
+            }
+
+            return newList;
         }
 
         // GET: Accordion by accordion id
